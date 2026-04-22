@@ -1,0 +1,91 @@
+{
+  "name": "espocrm-playwright",
+  "version": "1.0.0",
+  "description": "A practical Playwright-TypeScript blueprint for learning how automation works in real projects. Covers Web UI, API, Mobile emulation, and DB testing, and more. Includes GitHub Actions and k6 metrics to show how a simple script evolves into a complete system",
+  "main": "index.js",
+  "scripts": {
+    "// --- Maintenance ---": "Clean and re-sync project state",
+    "clean": "rimraf node_modules package-lock.json test-results playwright-report allure-results allure-report",
+    "clean:results": "rimraf test-results playwright-report allure-results allure-report",
+    "reinstall": "npm run clean && npm install",
+
+    "// --- Setup ---": "One-click setup for new developers or CI",
+    "setup": "npm install && npx playwright install --with-deps",
+    "setup:ci": "npm ci && npx playwright install --with-deps chromium",
+
+    "// --- Quality ---": "Linting, Formatting, and Type Safety",
+    "check": "prettier --write . && eslint . --fix && tsc --noEmit",
+    "check:ci": "prettier --check . && eslint . && tsc --noEmit",
+
+    "// --- Core Testing ---": "Standard Playwright commands",
+    "pretest": "npm run clean:results",
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:debug": "npx playwright test --debug",
+    "test:serial": "npm run test -- --workers=1",
+
+    "// --- Env-based Execution ---": "Run tests with specific environment configs",
+    "dev": "cross-env APP_ENV=dev npm run test",
+    "staging": "cross-env APP_ENV=staging npm run test",
+    "prod": "cross-env APP_ENV=prod npm run test",
+
+    "// --- Performance ---": "K6 load testing",
+    "perf:run": "k6 run src/perf-test/script.js",
+    "perf:report": "k6 run --out json=test-results/perf-res.json src/perf-test/script.js",
+
+    "// --- Advanced Reporting ---": "Allure report management",
+    "allure:gen": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure serve allure-results",
+    "report:dev": "cross-env APP_ENV=dev npm run test || npm run allure:gen && npm run allure:open",
+    "report:staging": "cross-env APP_ENV=staging npm run test || npm run allure:gen && npm run allure:open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuan-engineer/espocrm-playwright.git"
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "testing",
+    "typescript",
+    "qa-engineer"
+  ],
+  "author": "tuan-engineer",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tuan-engineer/espocrm-playwright/issues"
+  },
+  "homepage": "https://github.com/tuan-engineer/espocrm-playwright#readme",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@faker-js/faker": "^10.4.0",
+    "@playwright/test": "^1.59.1",
+    "@prisma/client": "^7.7.0",
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^25.6.0",
+    "allure-commandline": "^2.38.1",
+    "allure-playwright": "^3.7.1",
+    "cross-env": "^10.1.0",
+    "crypto-js": "^4.2.0",
+    "csv-parse": "^6.2.1",
+    "dayjs": "^1.11.20",
+    "dotenv": "^17.3.1",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-playwright": "^2.10.2",
+    "lighthouse": "^13.1.0",
+    "mailosaur": "^11.1.0",
+    "mysql2": "^3.22.0",
+    "ortoni-report": "^2.0.7",
+    "pdfjs-dist-es5": "^2.13.216",
+    "prettier": "^3.8.3",
+    "prisma": "^6.19.3",
+    "rimraf": "^6.1.3",
+    "sharp": "^0.34.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.0",
+    "zod": "^4.3.6"
+  }
+}
