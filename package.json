@@ -5,40 +5,25 @@
   "main": "index.js",
   "scripts": {
     "// --- Maintenance ---": "Clean and re-sync project state",
-    "clean": "rimraf node_modules package-lock.json test-results playwright-report allure-results allure-report",
-    "clean:results": "rimraf test-results playwright-report allure-results allure-report",
+    "clean": "rimraf node_modules package-lock.json test-results playwright-report allure-results allure-report ortoni-report",
+    "clean:results": "rimraf test-results playwright-report allure-results allure-report ortoni-report",
     "reinstall": "npm run clean && npm install",
-
     "// --- Setup ---": "One-click setup for new developers or CI",
     "setup": "npm install && npx playwright install --with-deps",
     "setup:ci": "npm ci && npx playwright install --with-deps chromium",
-
     "// --- Quality ---": "Linting, Formatting, and Type Safety",
-    "check": "prettier --write . && eslint . --fix && tsc --noEmit",
-    "check:ci": "prettier --check . && eslint . && tsc --noEmit",
-
-    "// --- Core Testing ---": "Standard Playwright commands",
-    "pretest": "npm run clean:results",
-    "test": "npx playwright test",
-    "test:ui": "npx playwright test --ui",
-    "test:debug": "npx playwright test --debug",
-    "test:serial": "npm run test -- --workers=1",
-
+    "check": "npx prettier --write . && eslint . --fix && tsc --noEmit",
+    "check:ci": "npx prettier --check . && eslint . && tsc --noEmit",
     "// --- Env-based Execution ---": "Run tests with specific environment configs",
-    "dev": "cross-env APP_ENV=dev npm run test",
-    "staging": "cross-env APP_ENV=staging npm run test",
-    "prod": "cross-env APP_ENV=prod npm run test",
-
+    "test.dev": "npx cross-env APP_ENV=dev playwright test",
+    "test.staging": "npx cross-env APP_ENV=staging playwright test",
+    "test.prod": "npx cross-env APP_ENV=prod playwright test",
+    "// --- Advanced Reporting ---": "Allure & Ortoni report management",
+    "allure": "npx allure generate allure-results --clean -o allure-report && npx allure open allure-report",
+    "ortoni": "npx playwright show-report ortoni-report",
     "// --- Performance ---": "K6 load testing",
     "perf:run": "k6 run src/perf-test/script.js",
-    "perf:report": "k6 run --out json=test-results/perf-res.json src/perf-test/script.js",
-
-    "// --- Advanced Reporting ---": "Allure report management",
-    "allure:gen": "allure generate allure-results --clean -o allure-report",
-    "allure:open": "allure open allure-report",
-    "allure:serve": "allure serve allure-results",
-    "report:dev": "cross-env APP_ENV=dev npm run test || npm run allure:gen && npm run allure:open",
-    "report:staging": "cross-env APP_ENV=staging npm run test || npm run allure:gen && npm run allure:open"
+    "perf:report": "k6 run --out json=test-results/perf-res.json src/perf-test/script.js"
   },
   "repository": {
     "type": "git",
@@ -84,6 +69,9 @@
     "prisma": "^6.19.3",
     "rimraf": "^6.1.3",
     "sharp": "^0.34.5",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^6.0.1",
+    "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.0",
     "zod": "^4.3.6"

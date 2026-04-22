@@ -1,5 +1,14 @@
 import { test, expect } from '@playwright/test';
 
+test.use({
+  headless: false,
+  launchOptions: {
+    slowMo: 1000,
+  },
+  video: 'on',
+  trace: 'on',
+});
+
 test('has title', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 

@@ -7,4 +7,5 @@ blob-report/
 playwright/.cache/
 allure-results/
 allure-report/
+ortoni-report/
 .auth/

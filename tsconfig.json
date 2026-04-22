@@ -1,34 +1,53 @@
 {
   "compilerOptions": {
-    // --- 1. ENVIRONMENT & MODULES ---
-    "target": "ES2022", // Stable target for Node 18+
+    /* 1. ENVIRONMENT & MODULES */
+    "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "lib": ["ES2022", "DOM"], // Include DOM for browser-specific globals (Window, Document)
-    // --- 2. ULTRA-STRICT TYPE CHECKING ---
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    /* 2. STRICT TYPE CHECKING */
     "strict": true,
-    "noUncheckedIndexedAccess": true, // Force checking for undefined in arrays/objects
-    "noFallthroughCasesInSwitch": true, // Prevent missing 'break' in switch statements
-
-    "noImplicitReturns": false, // Ensure all code paths in a function return a value
-    "exactOptionalPropertyTypes": false, // Ban assigning 'undefined' explicitly to optional properties
-    "noPropertyAccessFromIndexSignature": false, // Force bracket notation (obj['key']) for unknown keys
-
-    "noImplicitOverride": true, // Require 'override' keyword in subclasses
-    "allowUnreachableCode": false, // Ban dead code that will never execute
-    // --- 3. PATH ALIASES ---
+    "noUncheckedIndexedAccess": true, // Essential for safe data handling from Excel/JSON
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "allowUnreachableCode": false,
+    /* 3. PATH ALIASES */
     "paths": {
-      "@tests/*": ["./tests/*"]
+      "@tests/*": [
+        "./tests/*"
+      ],
+      "@page-objects/*": [
+        "./src/page-objects/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@cfg": [
+        "./cfg.ts"
+      ]
     },
-    // --- 4. COMPILATION & OPTIMIZATION ---
-    "isolatedModules": true, // Improve transpiler speed (e.g., Babel, SWC)
-    "verbatimModuleSyntax": true, // Enforce 'import type' strictly at the TS compiler level
-    "esModuleInterop": true,
-    "skipLibCheck": true, // Skip type checking of node_modules for ultra-fast builds
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true, // Allow importing .json files directly
-    "types": ["@playwright/test", "node"]
+    /* 4. COMPILATION & OPTIMIZATION */
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true, // Forces 'import type' for cleaner transpilation
+    "resolveJsonModule": true,
+    "types": [
+      "@playwright/test",
+      "node"
+    ]
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "playwright.config.ts", "cfg.ts"],
-  "exclude": ["node_modules", "test-results", "playwright-report", "playwright/.cache"]
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "playwright.config.ts",
+    "cfg.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "test-results",
+    "playwright-report",
+    "playwright/.cache"
+  ]
 }
