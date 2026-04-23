@@ -21,7 +21,7 @@
     "// --- Advanced Reporting ---": "Allure & Ortoni report management",
     "allure": "npx allure generate reports/allure/allure-results --clean -o reports/allure/allure-report && npx allure open reports/allure/allure-report",
     "ortoni": "npx playwright show-report reports/ortoni",
-    "blob": "npx playwright merge-reports reports/blob --reporter=html",
+    "blob": "npx cross-env PLAYWRIGHT_HTML_REPORT=reports/blob npx playwright merge-reports reports/blob --reporter=html",
     "// --- Performance ---": "K6 load testing",
     "perf:run": "k6 run src/perf-test/script.js",
     "perf:report": "k6 run --out json=test-results/perf-res.json src/perf-test/script.js",
