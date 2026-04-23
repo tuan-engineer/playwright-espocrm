@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 /**
  * Identify environment and load corresponding .env file
  */
-const APP_ENV = process.env.APP_ENV || 'dev';
+const APP_ENV = process.env['APP_ENV'] || 'dev';
 dotenv.config({ path: path.resolve(process.cwd(), `.env.${APP_ENV}`) });
 
 /**

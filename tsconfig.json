@@ -1,20 +1,48 @@
 {
   "compilerOptions": {
-    /* 1. ENVIRONMENT & MODULES */
+    // Compiles code to modern JavaScript (ES2022) to support features like top-level await and private class fields
     "target": "ES2022",
+    // Uses the latest standard for JavaScript modules (import/export), enabling modern features like dynamic imports
     "module": "ESNext",
+    // Tells TypeScript to find imported files the same way modern tools like Vite or Playwright do (smarter and more flexible)
     "moduleResolution": "Bundler",
+    // Loads type definitions for modern JS, browser objects, and the ability to loop through web elements
     "lib": [
       "ES2022",
-      "DOM"
+      "DOM",
+      "DOM.Iterable"
     ],
-    /* 2. STRICT TYPE CHECKING */
+    // Allows JavaScript files to be imported and part of the project
+    "allowJs": true,
+    // Enables type checking in JavaScript files, reporting errors just like in TypeScript
+    "checkJs": true,
+    // Redirects output structure to the 'dist' folder, keeping your source directory clean from compiled files
+    "outDir": "./dist",
+    // Ensures optional properties are either providing the correct type or are missing entirely, not set to undefined
+    "exactOptionalPropertyTypes": false,
+    // Prevents using dot notation for undeclared properties, catching potential typos in data objects
+    "noPropertyAccessFromIndexSignature": true,
+    // Speeds up compilation by skipping type checking of all declaration files (.d.ts) in node_modules
+    "skipLibCheck": true,
+    // Enables all strict type-checking options to ensure maximum code quality and prevent common bugs
     "strict": true,
-    "noUncheckedIndexedAccess": true, // Essential for safe data handling from Excel/JSON
+    // Forces you to check if an array element exists before using it, preventing "undefined" errors
+    "noUncheckedIndexedAccess": true,
+    // Prevents bugs by ensuring each 'case' in a switch statement ends with a break or return
     "noFallthroughCasesInSwitch": true,
+    // Forces the use of the 'override' keyword when extending classes, making class inheritance safer and clearer
     "noImplicitOverride": true,
+    // Ensures no dead code exists after a return, throw, or break statement, keeping the codebase clean
     "allowUnreachableCode": false,
-    /* 3. PATH ALIASES */
+    // Ensures all code paths in a function return a value, preventing accidental 'undefined' results
+    "noImplicitReturns": true,
+    // Flags unused local variables to keep the code clean and avoid unnecessary memory usage
+    "noUnusedLocals": true,
+    // Flags unused function parameters to ensure clean function signatures and better maintainability
+    "noUnusedParameters": true,
+    // Ensures class properties are initialized in the constructor, preventing accidental "undefined" errors
+    "strictPropertyInitialization": true,
+    // Defines custom shortcuts (aliases) for long directory paths to make imports cleaner and easier to manage
     "paths": {
       "@tests/*": [
         "./tests/*"
@@ -25,29 +53,44 @@
       "@utils/*": [
         "./src/utils/*"
       ],
+      "@core/*": [
+        "./src/core/*"
+      ],
       "@cfg": [
         "./cfg.ts"
       ]
     },
-    /* 4. COMPILATION & OPTIMIZATION */
+    // Ensures each file can be translated independently, making your tests run faster and compatible with modern tools
     "isolatedModules": true,
-    "verbatimModuleSyntax": true, // Forces 'import type' for cleaner transpilation
+    // Simplifies compilation by ensuring types are explicitly marked and removed, preventing runtime crashes
+    "verbatimModuleSyntax": true,
+    // Allows importing .json files directly as modules with automatic type inference and autocomplete
     "resolveJsonModule": true,
+    // Enables compatibility for importing CommonJS modules using standard ES6 import syntax
+    "esModuleInterop": true,
+    // Prevents bugs by ensuring imports match the exact case (Uppercase/Lowercase) of the actual filenames
+    "forceConsistentCasingInFileNames": true,
+    // Enables the creation of map files, allowing debuggers to show the original TypeScript code instead of generated JavaScript
+    "sourceMap": true,
+    // Tells TypeScript exactly which "instruction manuals" (Playwright & Node.js) to use for coding suggestions and error checking
     "types": [
       "@playwright/test",
       "node"
     ]
   },
+  // Specifies exactly which folders and files TypeScript should monitor and compile, improving performance and accuracy
   "include": [
     "src/**/*.ts",
     "tests/**/*.ts",
     "playwright.config.ts",
-    "cfg.ts"
+    "cfg.ts",
+    "eslint.config.mjs"
   ],
+  // Tells TypeScript to ignore specific folders like dependencies and test reports to boost performance and avoid noise
   "exclude": [
     "node_modules",
     "test-results",
     "playwright-report",
-    "playwright/.cache"
+    "playwright/.cache",
   ]
 }
