@@ -1,4 +1,19 @@
 {
+  // Specifies exactly which folders and files TypeScript should monitor and compile, improving performance and accuracy
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "playwright.config.ts",
+    "cfg.ts",
+    "eslint.config.mjs"
+  ],
+  // Tells TypeScript to ignore specific folders like dependencies and test reports to boost performance and avoid noise
+  "exclude": [
+    "node_modules",
+    "test-results",
+    "reports",
+    "playwright/.cache",
+  ],
   "compilerOptions": {
     // Compiles code to modern JavaScript (ES2022) to support features like top-level await and private class fields
     "target": "ES2022",
@@ -77,20 +92,5 @@
       "@playwright/test",
       "node"
     ]
-  },
-  // Specifies exactly which folders and files TypeScript should monitor and compile, improving performance and accuracy
-  "include": [
-    "src/**/*.ts",
-    "tests/**/*.ts",
-    "playwright.config.ts",
-    "cfg.ts",
-    "eslint.config.mjs"
-  ],
-  // Tells TypeScript to ignore specific folders like dependencies and test reports to boost performance and avoid noise
-  "exclude": [
-    "node_modules",
-    "test-results",
-    "playwright-report",
-    "playwright/.cache",
-  ]
+  }
 }

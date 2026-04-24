@@ -26,25 +26,31 @@ export default defineConfig({
   retries: process.env['CI'] ? 3 : 0,
   // Opts for a single worker on CI to prevent resource contention and instability, while utilizing full CPU power on local
   workers: process.env['CI'] ? 1 : undefined,
-
+  // Define the output format for test results
   reporter: [
+    // Single-line progress reporter for concise terminal logs
     ['line'],
+    // Save HTML reports to a specific folder without auto-opening after execution
     ['html', {
       outputFolder: 'reports/html',
-      open: 'never'
+      open: 'on-failure'
     }],
+    // Export raw test results to a JSON file for automated data processing
     ['json', {
       outputFile: 'reports/json/results.json'
     }],
+    // Generate JUnit XML reports for integration with CI/CD pipelines (e.g., Jenkins, Azure)
     ['junit', {
       outputFile: 'reports/junit/results.xml'
     }],
+    // Generate binary results for sharded tests, to be merged later into a single report
     [
       'blob',
       {
         outputDir: 'reports/blob'
       }
     ],
+    // Generate comprehensive Allure reports with detailed test steps and suite metadata
     [
       'allure-playwright',
       {
@@ -54,6 +60,7 @@ export default defineConfig({
         suiteTitle: true,
       }
     ],
+    // Generate a customized, themed HTML report with project metadata and embedded screenshots
     [
       'ortoni-report',
       {
@@ -67,6 +74,7 @@ export default defineConfig({
       },
     ],
   ],
+  // Shared configuration for every test, including context and device settings
   use: {
     baseURL: CONFIG.ENV.PAGE_URL,
     ignoreHTTPSErrors: true,

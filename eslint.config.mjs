@@ -10,9 +10,7 @@ export default tseslint.config(
     ignores: [
       '**/node_modules/**',
       'test-results/',
-      'playwright-report/',
-      'allure-*/',
-      'ortoni-report/',
+      'reports/',
       'eslint.config.mjs',
       'playwright/.cache/',
     ],
