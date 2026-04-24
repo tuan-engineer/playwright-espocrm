@@ -23,7 +23,7 @@ test.describe('[0001][Testcase For Login]', () => {
   test("TC-LOGIN-001: Successful login", async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto(CONFIG.ENV.PAGE_URL);
     await page.locator('#login-form').waitFor({ state: 'visible' });
     await loginPage.login(CONFIG.ENV.PAGE_ADMIN_USERNAME, CONFIG.ENV.PAGE_ADMIN_PASSWORD);
     await expect(page.locator('.dashlets')).toBeVisible();
