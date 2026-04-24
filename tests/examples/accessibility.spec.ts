@@ -1,8 +1,8 @@
 import { test } from '@playwright/test';
-import { logError } from '@core/Core';
+import { log } from '@core/Core';
 
 test('Check accessibility login form', async ({ page }) => {
-  logError("sdfsdfsdfsdf", "543534545", 'info');
+  log('sdfsdfsdfsdf', '543534545', 'info');
 
   // Có await ở đây, lỗi "Async arrow function has no await" sẽ biến mất
   await page.goto('https://codezy.io.vn');

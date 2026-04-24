@@ -1,13 +1,15 @@
 import winston from 'winston';
 import path from 'path';
 
+const logFormat = winston.format.combine(
+  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  winston.format.printf((info) => {
+    return `[${info['timestamp']}][${info['id']}][${info['level']}]: ${info['message']}`;
+  }),
+);
+
 const logger = winston.createLogger({
-  format: winston.format.combine(
-    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    winston.format.printf((info) => {
-      return `[${info.timestamp}][${info.id}][${info.level}]: ${info.message}`;
-    }),
-  ),
+  format: logFormat,
   transports: [
     new winston.transports.File({
       filename: path.join(process.cwd(), 'logs/playwright.log'),
@@ -15,18 +17,12 @@ const logger = winston.createLogger({
       maxFiles: 5,
     }),
     new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize({ all: true })
-      )
+      format: winston.format.combine(winston.format.colorize({ all: true }), logFormat),
     }),
   ],
 });
 
-export const logError = (
-  msg: unknown,
-  id: string,
-  type: 'info' | 'warn' | 'error' = 'info'
-) => {
+export const log = (msg: unknown, id: string, type: 'info' | 'warn' | 'error' = 'info') => {
   let stringMsg: string;
   if (msg instanceof Error) {
     stringMsg = msg.stack || msg.message;

@@ -5,7 +5,7 @@ import prettierConfig from 'eslint-config-prettier';
 import globals from 'globals';
 
 export default tseslint.config(
-  // 1. GLOBAL IGNORES: Exclude build artifacts, reports, and system caches
+  // Ignore dependencies, generated outputs, cache, and config file from linting
   {
     ignores: [
       '**/node_modules/**',
@@ -15,61 +15,83 @@ export default tseslint.config(
       'playwright/.cache/',
     ],
   },
-  // 2. BASE CONFIGS: Standard recommended rules for JS and TS
+  // Use ESLint's recommended ruleset (best-practice defaults)
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked, // Enables Type-Aware linting for deep logic analysis
-  prettierConfig, // Disables formatting rules that conflict with Prettier
-  {
-    languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.jest,
-      },
-      parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: import.meta.dirname, // Improves performance by explicitly defining the project root
-      },
-    },
-  },
-  // 3. PLAYWRIGHT RULES: Specialized rules for E2E testing stability
-  {
-    files: ['**/*.{spec,test}.ts'],
-    plugins: { playwright },
-    rules: {
-      ...playwright.configs['flat/recommended'].rules,
-      'playwright/no-wait-for-timeout': 'warn',
-      'playwright/no-page-pause': 'warn',
-      'playwright/no-focused-test': 'warn',
-      'playwright/no-networkidle': 'warn',
-      'playwright/no-skipped-test': 'warn',
-      'playwright/valid-expect': 'warn',        // Ensures 'expect' is used correctly with await
-      'playwright/prefer-web-first-assertions': 'warn', // Encourages auto-retrying assertions
-    },
-  },
-  // 4. ARCHITECT & LOGIC RULES: Enhancing code quality and error prevention
+  // Scoped to .ts files only to avoid parsing errors on non-TS files
   {
     files: ['**/*.ts'],
+    // Enable TypeScript ESLint rules that require type-checking (more strict, uses tsconfig)
+    extends: [...tseslint.configs.recommendedTypeChecked],
+    languageOptions: {
+      globals: {
+        // Include Node.js global variables (e.g., process, process.cwd(), module)
+        ...globals.node,
+        // Removed globals.jest — not applicable in a Playwright project
+      },
+      parserOptions: {
+        // Let @typescript-eslint automatically use tsconfig for faster, type-aware linting (no manual project path needed)
+        projectService: true,
+        // Set the root directory for tsconfig resolution (based on current config file location)
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
-      // --- LOGIC & SAFETY (Warnings to prevent silent failures) ---
-      '@typescript-eslint/no-floating-promises': 'warn', // Detects unawaited promises
-      '@typescript-eslint/await-thenable': 'warn',       // Warns when awaiting non-promise values
+      // Warn if you forget to await or handle a Promise (async code may run unexpectedly)
+      '@typescript-eslint/no-floating-promises': 'warn',
+      // Warn when using await on a non-Promise value (likely a mistake)
+      '@typescript-eslint/await-thenable': 'warn',
+      // Warn if you misuse Promises (e.g., pass async fn where sync expected); ignore cases where return is intentionally not awaited (checksVoidReturn: false)
       '@typescript-eslint/no-misused-promises': ['warn', { checksVoidReturn: false }],
-      '@typescript-eslint/no-unnecessary-condition': 'warn', // Flags logic that is always true/false
-      // --- CODE CLEANLINESS ---
+      // Warn if a condition is pointless because the value can never be null/undefined/false based on its type
+      '@typescript-eslint/no-unnecessary-condition': 'warn',
+      // Warn on unused variables/args/errors, except ones starting with "_" (intentionally ignored)
       '@typescript-eslint/no-unused-vars': ['warn', {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
-        caughtErrorsIgnorePattern: '^_'
+        caughtErrorsIgnorePattern: '^_',
       }],
+      // Warn to use `import type` for types instead of regular imports (cleaner, avoids runtime impact)
       '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
-      '@typescript-eslint/no-explicit-any': 'warn',      // Discourages 'any' but doesn't block execution
-      '@typescript-eslint/require-await': 'warn',        // Warns if an async function lacks await
-      '@typescript-eslint/restrict-template-expressions': 'off', // Allows logging unknown/any in string templates
-      // --- CODE STYLE & QUALITY ---
-      'no-console': 'off',                               // Allows logging via console or Winston
-      'eqeqeq': ['warn', 'always', { null: 'ignore' }],  // Enforces strict equality (===)
-      'curly': ['warn', 'all'],                          // Requires braces for all control blocks
-      '@typescript-eslint/return-await': ['warn', 'always'], // Better stack traces for Playwright
+      // Warn when using `any` type (loses type safety; prefer specific types or unknown)
+      '@typescript-eslint/no-explicit-any': 'warn',
+      // Warn if an async function has no await (async may be unnecessary)
+      '@typescript-eslint/require-await': 'warn',
+      // Turn off warning when putting non-string values into template strings (e.g., number, object)
+      '@typescript-eslint/restrict-template-expressions': 'off',
+      // Warn to always use `return await` in async functions (ensures proper error handling)
+      '@typescript-eslint/return-await': ['warn', 'always'],
+      // Allow using console.* (no warnings for console.log, console.error, etc.)
+      'no-console': 'off',
+      // Warn to use ===/!== instead of ==/!=, except allow == null to check null or undefined
+      'eqeqeq': ['warn', 'always', { null: 'ignore' }],
+      // Warn if control statements (if/for/while, etc.) don't use {} braces (always require curly braces)
+      'curly': ['warn', 'all'],
     },
   },
+  {
+    // Apply this config only to test files (*.spec.ts, *.test.ts)
+    files: ['**/*.{spec,test}.ts'],
+    // Register Playwright plugin to enable its custom linting rules
+    plugins: { playwright },
+    rules: {
+      // Apply Playwright's recommended ESLint rules (flat config format)
+      ...playwright.configs['flat/recommended'].rules,
+      // Warn when using waitForTimeout (discouraged, use proper waits instead)
+      'playwright/no-wait-for-timeout': 'warn',
+      // Warn when using page.pause() (should not be committed in tests)
+      'playwright/no-page-pause': 'warn',
+      // Warn on focused tests (e.g., test.only) to prevent accidental commits
+      'playwright/no-focused-test': 'warn',
+      // Warn against relying on networkidle (can be flaky; prefer explicit waits)
+      'playwright/no-networkidle': 'warn',
+      // Warn on skipped tests (e.g., test.skip) to avoid unintentionally ignoring tests
+      'playwright/no-skipped-test': 'warn',
+      // Warn when expect assertions are invalid or missing proper awaits
+      'playwright/valid-expect': 'warn',
+      // Warn to use Playwright's expect(locator).toBe... (auto-waits) instead of manual checks/assertions
+      'playwright/prefer-web-first-assertions': 'warn',
+    },
+  },
+  // Apply Prettier formatting rules and disable conflicting ESLint rules — MUST be last
+  prettierConfig,
 );

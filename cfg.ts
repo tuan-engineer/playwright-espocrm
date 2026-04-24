@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 /**
  * Identify environment and load corresponding .env file
  */
-const APP_ENV = process.env['APP_ENV'] || 'dev';
+const APP_ENV = process.env['APP_ENV'] ?? 'dev';
 dotenv.config({ path: path.resolve(process.cwd(), `.env.${APP_ENV}`) });
 
 /**
@@ -25,8 +25,13 @@ const envSchema = z.object({
 
 /**
  * Validate process.env
+ * Inject APP_ENV explicitly to ensure it reflects the resolved value,
+ * not whatever (or nothing) is inside the .env file.
  */
-const result = envSchema.safeParse({ ...process.env, APP_ENV });
+const result = envSchema.safeParse({
+  ...process.env,
+  APP_ENV, // explicit override — resolved before dotenv ran
+});
 
 if (!result.success) {
   console.error('❌ Invalid environment variables:', result.error.format());
@@ -40,9 +45,7 @@ export const CONFIG = {
   ROOT: {
     STORAGE_PATH: path.resolve(process.cwd(), '.auth/storage-state.json'),
   },
-  ENV: {
-    ...result.data,
-  },
+  ENV: result.data,
 } as const;
 
 export type EnvConfig = typeof CONFIG;

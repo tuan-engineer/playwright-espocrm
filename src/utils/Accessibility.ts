@@ -59,6 +59,7 @@ export class AccessibilityPage {
     } catch (error) {
       throw new Error(
         `Axe analysis failed: ${error instanceof Error ? error.message : String(error)}`,
+        { cause: error },
       );
     }
   }
