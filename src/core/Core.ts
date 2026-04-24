@@ -1,5 +1,6 @@
 import winston from 'winston';
 import path from 'path';
+import { randomUUID } from 'crypto';
 
 const logFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
@@ -7,6 +8,10 @@ const logFormat = winston.format.combine(
     return `[${info['timestamp']}][${info['id']}][${info['level']}]: ${info['message']}`;
   }),
 );
+
+export function generateId(): string {
+  return randomUUID();
+}
 
 const logger = winston.createLogger({
   format: logFormat,

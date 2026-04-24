@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { Accessibility } from '@utils/Accessibility';
+import { generateId } from '@core/Core';
 
 test.use({
   headless: false,
@@ -24,4 +26,14 @@ test('get started link', async ({ page }) => {
 
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+});
+
+test('full page - no violations', async ({ page }) => {
+  await page.goto('/');
+  const axe = new Accessibility(page);
+  await axe.expectNoViolations();
+});
+
+test('sdf', async ({ page }) => {
+  console.log(generateId());
 });
