@@ -12,15 +12,17 @@ dotenv.config({ path: path.resolve(process.cwd(), `.env.${APP_ENV}`) });
  * Define Environment Schema
  */
 const envSchema = z.object({
+  APP_ENV: z.enum(['dev', 'staging', 'prod']).default('dev'),
   PAGE_URL: z.string().url(),
   PAGE_ADMIN_USERNAME: z.string().min(1),
   PAGE_ADMIN_PASSWORD: z.string().min(1),
+  PAGE_USER_USERNAME: z.string().min(1),
+  PAGE_USER_PASSWORD: z.string().min(1),
   DB_HOST: z.string().min(1),
   DB_NAME: z.string().min(1),
   DB_USER: z.string().min(1),
   DB_PASSWORD: z.string().min(1),
-  TEST_KEY: z.string().min(1),
-  APP_ENV: z.enum(['dev', 'staging', 'prod']).default('dev'),
+  TEST_KEY: z.string().min(1)
 });
 
 /**
@@ -34,7 +36,7 @@ const result = envSchema.safeParse({
 });
 
 if (!result.success) {
-  console.error('❌ Invalid environment variables:', result.error.format());
+  console.error('Invalid environment variables:', result.error.format());
   process.exit(1);
 }
 

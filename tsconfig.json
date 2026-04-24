@@ -59,21 +59,21 @@
     "strictPropertyInitialization": true,
     // Defines custom shortcuts (aliases) for long directory paths to make imports cleaner and easier to manage
     "paths": {
-      "@tests/*": [
-        "./tests/*"
+      "@test-examples/*": [
+        "./tests/examples/*"
       ],
-      "@page-objects/*": [
-        "./src/page-objects/*"
-      ],
-      "@utils/*": [
+      "@src-utils/*": [
         "./src/utils/*"
       ],
-      "@core/*": [
+      "@src-core/*": [
         "./src/core/*"
       ],
       "@cfg": [
         "./cfg.ts"
-      ]
+      ],
+      "@tests/*": [
+        "./tests/*"
+      ],
     },
     // Ensures each file can be translated independently, making your tests run faster and compatible with modern tools
     "isolatedModules": true,

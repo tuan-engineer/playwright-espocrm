@@ -9,6 +9,19 @@ export class DataFaker {
     static getRandomFloat(min: number = 1000, max: number = 100000): number {
         return faker.number.float({ min, max, fractionDigits: 2 });
     }
+    static getUsername(): string {
+      return faker.internet.username();
+    }
+    static getPassword(): string {
+      return faker.internet.password();
+    }
+    static getStrongPassword(): string {
+      return faker.internet.password({
+        length: 12,
+        memorable: false,
+        pattern: /[A-Za-z0-9!@#$%^&*()]/
+      });
+    }
     static getUniqueId(): string {
         return faker.string.uuid();
     }

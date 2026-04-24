@@ -36,6 +36,18 @@ export default tseslint.config(
       },
     },
     rules: {
+      // Warns when passing an 'any' value as an argument to a function (helps catch type safety issues)
+      '@typescript-eslint/no-unsafe-call': 'warn',
+      // Warns when accessing a property/method of an 'any' value (prevents potential runtime errors)
+      '@typescript-eslint/no-unsafe-member-access': 'warn',
+      // Warns when returning an 'any' value from a function with a specific return type (risks breaking type safety)
+      '@typescript-eslint/no-unsafe-return': 'warn',
+      // Warns when passing an 'any' value as an argument to a function (risks runtime errors)
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      // Warn when using `any` type (loses type safety; prefer specific types or unknown)
+      '@typescript-eslint/no-explicit-any': 'warn',
+      // Disables warning when assigning values of type 'any' to variables (loses type safety)
+      '@typescript-eslint/no-unsafe-assignment': 'warn',
       // Warn if you forget to await or handle a Promise (async code may run unexpectedly)
       '@typescript-eslint/no-floating-promises': 'warn',
       // Warn when using await on a non-Promise value (likely a mistake)
@@ -52,8 +64,6 @@ export default tseslint.config(
       }],
       // Warn to use `import type` for types instead of regular imports (cleaner, avoids runtime impact)
       '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
-      // Warn when using `any` type (loses type safety; prefer specific types or unknown)
-      '@typescript-eslint/no-explicit-any': 'warn',
       // Warn if an async function has no await (async may be unnecessary)
       '@typescript-eslint/require-await': 'warn',
       // Turn off warning when putting non-string values into template strings (e.g., number, object)
