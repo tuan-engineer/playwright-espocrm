@@ -43,7 +43,9 @@ export const log = (msg: unknown, id: string, type: 'info' | 'warn' | 'error' = 
 
 export const isSessionValid = (): boolean => {
   try {
-    const data = JSON.parse(fs.readFileSync(CONFIG.ROOT.STORAGE_PATH, 'utf-8')) as { cookies?: Array<{ expires: number }> };
+    const data = JSON.parse(fs.readFileSync(CONFIG.ROOT.STORAGE_PATH, 'utf-8')) as {
+      cookies?: Array<{ expires: number }>;
+    };
     const cookies = data.cookies || [];
     if (cookies.length === 0) return false;
     const now = Date.now() / 1000;

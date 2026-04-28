@@ -8,12 +8,7 @@
     "eslint.config.mjs"
   ],
   // Tells TypeScript to ignore specific folders like dependencies and test reports to boost performance and avoid noise
-  "exclude": [
-    "node_modules",
-    "test-results",
-    "reports",
-    "playwright/.cache",
-  ],
+  "exclude": ["node_modules", "test-results", "reports", "playwright/.cache"],
   "compilerOptions": {
     // Compiles code to modern JavaScript (ES2022) to support features like top-level await and private class fields
     "target": "ES2022",
@@ -22,11 +17,7 @@
     // Tells TypeScript to find imported files the same way modern tools like Vite or Playwright do (smarter and more flexible)
     "moduleResolution": "Bundler",
     // Loads type definitions for modern JS, browser objects, and the ability to loop through web elements
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     // Allows JavaScript files to be imported and part of the project
     "allowJs": true,
     // Enables type checking in JavaScript files, reporting errors just like in TypeScript
@@ -59,21 +50,11 @@
     "strictPropertyInitialization": true,
     // Defines custom shortcuts (aliases) for long directory paths to make imports cleaner and easier to manage
     "paths": {
-      "@test-examples/*": [
-        "./tests/examples/*"
-      ],
-      "@src-utils/*": [
-        "./src/utils/*"
-      ],
-      "@src-core/*": [
-        "./src/core/*"
-      ],
-      "@cfg": [
-        "./cfg.ts"
-      ],
-      "@tests/*": [
-        "./tests/*"
-      ],
+      "@test-examples/*": ["./tests/examples/*"],
+      "@src-utils/*": ["./src/utils/*"],
+      "@src-core/*": ["./src/core/*"],
+      "@cfg": ["./cfg.ts"],
+      "@tests/*": ["./tests/*"]
     },
     // Ensures each file can be translated independently, making your tests run faster and compatible with modern tools
     "isolatedModules": true,
@@ -88,9 +69,6 @@
     // Enables the creation of map files, allowing debuggers to show the original TypeScript code instead of generated JavaScript
     "sourceMap": true,
     // Tells TypeScript exactly which "instruction manuals" (Playwright & Node.js) to use for coding suggestions and error checking
-    "types": [
-      "@playwright/test",
-      "node"
-    ]
+    "types": ["@playwright/test", "node"]
   }
 }

@@ -1,5 +1,5 @@
-import type { Page } from "@playwright/test";
-import { LoginPage } from "@test-examples/pages/LoginPage";
+import type { Page } from '@playwright/test';
+import { LoginPage } from '@test-examples/pages/LoginPage';
 
 export class AccountPage extends LoginPage {
   constructor(page: Page) {

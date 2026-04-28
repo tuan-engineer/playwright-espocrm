@@ -52,11 +52,14 @@ export default tseslint.config(
       // Warn if a condition is pointless because the value can never be null/undefined/false based on its type
       '@typescript-eslint/no-unnecessary-condition': 'warn',
       // Warn on unused variables/args/errors, except ones starting with "_" (intentionally ignored)
-      '@typescript-eslint/no-unused-vars': ['warn', {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        caughtErrorsIgnorePattern: '^_',
-      }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       // Warn to use `import type` for types instead of regular imports (cleaner, avoids runtime impact)
       '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
       // Warn if an async function has no await (async may be unnecessary)
@@ -68,9 +71,9 @@ export default tseslint.config(
       // Allow using console.* (no warnings for console.log, console.error, etc.)
       'no-console': 'off',
       // Warn to use ===/!== instead of ==/!=, except allow == null to check null or undefined
-      'eqeqeq': ['warn', 'always', { null: 'ignore' }],
+      eqeqeq: ['warn', 'always', { null: 'ignore' }],
       // Warn if control statements (if/for/while, etc.) don't use {} braces (always require curly braces)
-      'curly': ['warn', 'all'],
+      curly: ['warn', 'all'],
     },
   },
   {

@@ -1,5 +1,5 @@
 import mysql, { type Pool, type PoolConnection } from 'mysql2/promise';
-import { CONFIG } from "@cfg";
+import { CONFIG } from '@cfg';
 
 export class Database {
   private pool: Pool;
@@ -13,14 +13,14 @@ export class Database {
       connectionLimit: 20,
       queueLimit: 0,
       enableKeepAlive: true,
-      keepAliveInitialDelay: 10000
+      keepAliveInitialDelay: 10000,
     });
   }
   async cleanTestData(keyword: string): Promise<void> {
     const tables = [
       { name: 'account', column: 'description' },
       { name: 'lead', column: 'description' },
-      { name: 'contact', column: 'description' }
+      { name: 'contact', column: 'description' },
     ];
     for (const table of tables) {
       const sql = `DELETE FROM \`${table.name}\` WHERE \`${table.column}\` LIKE ?`;
