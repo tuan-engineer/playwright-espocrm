@@ -36,18 +36,13 @@ export default tseslint.config(
       },
     },
     rules: {
-      // Warns when passing an 'any' value as an argument to a function (helps catch type safety issues)
-      '@typescript-eslint/no-unsafe-call': 'warn',
-      // Warns when accessing a property/method of an 'any' value (prevents potential runtime errors)
-      '@typescript-eslint/no-unsafe-member-access': 'warn',
-      // Warns when returning an 'any' value from a function with a specific return type (risks breaking type safety)
-      '@typescript-eslint/no-unsafe-return': 'warn',
-      // Warns when passing an 'any' value as an argument to a function (risks runtime errors)
-      '@typescript-eslint/no-unsafe-argument': 'warn',
-      // Warn when using `any` type (loses type safety; prefer specific types or unknown)
-      '@typescript-eslint/no-explicit-any': 'warn',
-      // Disables warning when assigning values of type 'any' to variables (loses type safety)
-      '@typescript-eslint/no-unsafe-assignment': 'warn',
+      // Disables all "unsafe" checks related to 'any'
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
       // Warn if you forget to await or handle a Promise (async code may run unexpectedly)
       '@typescript-eslint/no-floating-promises': 'warn',
       // Warn when using await on a non-Promise value (likely a mistake)

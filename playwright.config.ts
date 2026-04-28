@@ -80,7 +80,7 @@ export default defineConfig({
   // Shared configuration for every test, including context and device settings
   use: {
     // Set base URL so relative paths in page.goto() are resolved automatically
-    baseURL: CONFIG.ENV.PAGE_URL,
+    baseURL: CONFIG.ENV.BASE_URL,
     // Ignore HTTPS errors (e.g., self-signed or invalid SSL certificates)
     ignoreHTTPSErrors: true,
     // Bypass Content Security Policy to allow injecting scripts/styles during tests
